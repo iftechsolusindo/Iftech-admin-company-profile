@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  password String
+
+  @@map("users")
+}
+
+model Blog {
+  id         Int      @id @default(autoincrement())
+  title      String
+  slug       String   @unique
+  excerpt    String?
+  contentUrl String?
+  imageUrl   String?
+  published  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("blogs")
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+
+  // Basic Information
+  title       String
+  slug        String   @unique
+  imageUrl    String?
+
+  // Client Information
+  client          String?
+  year            Int?
+  type            String?
+  clientLocation  String?
+  link            String?
+  category        String?
+
+  // Device
+  devices String[] @default([])
+
+  // Project Details
+  projectDetails         String?
+  projectDetailsImageUrl String?
+
+  // Our Responsibility
+  ourResponsibility         String?
+  ourResponsibilityImageUrl String?
+
+  // Project Responsibilities
+  responsibilities String[] @default([])
+
+  // Technology Stack
+  technologies Json?
+
+  // Gallery
+  galleryImageUrl String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("projects")
+}
+
+model TechnologyIcons {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  iconUrl   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("technologiesicons")
+}
